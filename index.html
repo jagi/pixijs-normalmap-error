@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+  <title>Sprite Batch</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+    }
+
+    .rendererView {
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+
+  <script src="pixi.js"></script>
+</head>
+
+<body>
+  <script>
+    var viewWidth = 1024;
+    var viewHeight = 1024;
+
+    var renderer = PIXI.autoDetectRenderer(viewWidth, viewHeight);
+    renderer.view.className = "rendererView";
+    document.body.appendChild(renderer.view);
+
+    var stage = new PIXI.Container();
+    var pondFloorTexture = PIXI.Texture.fromImage("counch_norm.jpg");
+    var filter = new PIXI.filters.NormalMapFilter(pondFloorTexture);
+    var sprite = PIXI.Sprite.fromImage("couch.jpg");
+
+    sprite.filters = [filter];
+    stage.addChild(sprite);
+
+    requestAnimationFrame(animate);
+
+    function animate() {
+    	filter.uniforms.LightPos.value[0] = 100;
+    	filter.uniforms.LightPos.value[1] = 100;
+    	renderer.render(stage);
+    	requestAnimationFrame(animate);
+    }
+  </script>
+</body>
+
+</html>
